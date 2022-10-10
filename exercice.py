@@ -17,17 +17,54 @@ def get_bill(name, data):
 
 
 def format_number(number, num_decimal_digits):
+	flip, space, result = False, 0, ""
+	if number < 0:
+		number, flip = number * (-1), True
+	full = int(number)
+	decimal = number % 1
+	full = str(full)
 	
-	return ""
+	for i in range(len(full)):
+		space += 1
+		print(i)
+		if space < 3:
+			result = full[len(full)-i-1] + result
+		if space == 3:
+			result = " " + full[len(full)-i-1] + result
+			space = 0
+
+	decimal = int(round(decimal* (10**num_decimal_digits)))
+
+	if flip:
+		result = "-" + result
+	
+	return result + "." + str(decimal)
 
 def get_triangle(num_rows):
-	return ""
+	# print("+" * (num_rows + num_rows + 1))
+	# for i in range(num_rows+1):
+	# 	if i != 0:
+	# 		print("+" + " " * (num_rows-i) + "A" * (i+i-1) + " " * (num_rows-i) + "+")
+	# print("+" * (num_rows + num_rows + 1))
+	
+	triangle = "+" * (num_rows + num_rows + 1)
+	for i in range(1,num_rows+1):
+		triangle += "\n" + "+" + " " * (num_rows-i) + "A" * (i+i-1) + " " * (num_rows-i) + "+"
+	triangle += "\n" + "+" * (num_rows + num_rows + 1)
+	return triangle
+
+def seperate(times):
+	i = 0
+	while i < times:
+		print("- - - - - - - -")
+		i += 1
 
 
 if __name__ == "__main__":
 	print(get_bill("Äpik Gämmör", [("chaise", 1, 399.99), ("g-fuel", 69, 35.99)]))
-
+	seperate(1)
 	print(format_number(-12345.678, 2))
-
+	seperate(1)
 	print(get_triangle(2))
+	seperate(1)
 	print(get_triangle(5))

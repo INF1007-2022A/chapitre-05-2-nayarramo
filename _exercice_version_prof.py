@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
 	print("------------------")
 
-	print(format_number(-1420069.0678, 2))
+	print(format_number(-12345.678, 2))
 
 	print("------------------")
 
