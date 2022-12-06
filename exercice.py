@@ -17,35 +17,31 @@ def get_bill(name, data):
 
 
 def format_number(number, num_decimal_digits):
-	flip, space, result = False, 0, ""
-	if number < 0:
-		number, flip = number * (-1), True
-	full = int(number)
-	decimal = number % 1
-	full = str(full)
-	
-	for i in range(len(full)):
-		space += 1
-		print(i)
-		if space < 3:
-			result = full[len(full)-i-1] + result
-		if space == 3:
-			result = " " + full[len(full)-i-1] + result
-			space = 0
+	whole = int(abs(number))
+	decimal = abs(number) % 1
 
-	decimal = int(round(decimal* (10**num_decimal_digits)))
+	decimalstr = str(int(round(decimal * 10**num_decimal_digits)))
+	decimalstr = "." + decimalstr + "0" * (num_decimal_digits - len(decimalstr))
 
-	if flip:
-		result = "-" + result
-	
-	return result + "." + str(decimal)
+	if abs(number) > 999:
+		wholestr = str(whole)
+		result = ""
+		while whole > 999:
+			if result!= "": 
+				result = " " + result
+			result = wholestr[-3:] + result
+			print(result)
+			whole = whole // 1000
+			wholestr = str(whole)
+			print(whole)
+		if whole != 0:
+			result = wholestr + " " + result
+		print((("-") if number < 0 else "") + f"{result}" + decimalstr)
+	else:
+		result = abs(number)
+	return (("-") if number < 0 else "") + f"{result}" + decimalstr
 
 def get_triangle(num_rows):
-	# print("+" * (num_rows + num_rows + 1))
-	# for i in range(num_rows+1):
-	# 	if i != 0:
-	# 		print("+" + " " * (num_rows-i) + "A" * (i+i-1) + " " * (num_rows-i) + "+")
-	# print("+" * (num_rows + num_rows + 1))
 	
 	triangle = "+" * (num_rows + num_rows + 1)
 	for i in range(1,num_rows+1):
