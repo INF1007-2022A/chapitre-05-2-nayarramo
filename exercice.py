@@ -17,29 +17,42 @@ def get_bill(name, data):
 
 
 def format_number(number, num_decimal_digits):
+
+	decimalstr = format_decimal(number, num_decimal_digits)
+	wholestr = format_whole(number)
+	
+	return (("-") if number < 0 else "") + f"{wholestr}" + decimalstr
+
+def format_whole(number):
 	whole = int(abs(number))
-	decimal = abs(number) % 1
 
-	decimalstr = str(int(round(decimal * 10**num_decimal_digits)))
-	decimalstr = "." + decimalstr + "0" * (num_decimal_digits - len(decimalstr))
+	wholestr = ""
+	while whole > 999:
+		if wholestr != "":
+			wholestr = " " + wholestr
+		groupOf3 = whole % 1000
+		whole = whole // 1000
+		wholestr = str(groupOf3) + wholestr
+	if whole < 1000 and whole != 0:
+		if wholestr == "":
+			wholestr = str(whole) + wholestr
+		else:
+			wholestr = str(whole) + " " + wholestr
+	
+	return wholestr
 
-	if abs(number) > 999:
-		wholestr = str(whole)
-		result = ""
-		while whole > 999:
-			if result!= "": 
-				result = " " + result
-			result = wholestr[-3:] + result
-			print(result)
-			whole = whole // 1000
-			wholestr = str(whole)
-			print(whole)
-		if whole != 0:
-			result = wholestr + " " + result
-		print((("-") if number < 0 else "") + f"{result}" + decimalstr)
-	else:
-		result = abs(number)
-	return (("-") if number < 0 else "") + f"{result}" + decimalstr
+def format_decimal(number, num_decimal_digits):
+	numberstr = str(number)
+	idxdec = numberstr.rfind(".")
+	decstr = numberstr[idxdec:]
+	
+	if len(decstr) > (num_decimal_digits+1):
+		decstr = decstr[:num_decimal_digits+1]
+	
+	while len(decstr) < (num_decimal_digits + 1):
+		decstr += "0"
+	
+	return decstr
 
 def get_triangle(num_rows):
 	
